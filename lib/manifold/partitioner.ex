@@ -15,12 +15,12 @@ defmodule Manifold.Partitioner do
     supervisor(__MODULE__, [partitions, opts], id: Keyword.get(opts, :name, __MODULE__))
   end
 
-  @spec start_link(Number.t, Keyword.t) :: GenServer.on_start
+  @spec start_link(non_neg_integer, Keyword.t) :: GenServer.on_start
   def start_link(partitions, opts \\ []) do
     GenServer.start_link(__MODULE__, partitions, opts)
   end
 
-  @spec send(pid, [pid], term) :: :ok
+  @spec send({atom, node}, [pid], term) :: :ok
   def send(pid, pids, message) do
     @gen_module.cast(pid, {:send, pids, message})
   end
